@@ -14,3 +14,28 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+packages:
+npm i react-router-dom - https://www.w3schools.com/react/react_router.asp
+
+strcuture:
+src/
+ ├── pages/
+ │   ├── Home.jsx
+ │   ├── Search.jsx
+ │   ├── TripDetails.jsx
+ │   ├── SeatSelection.jsx
+ │   ├── Checkout.jsx
+ │   ├── MyBookings.jsx
+ │
+ ├── admin/
+ │   ├── Dashboard.jsx
+ │   ├── Trips.jsx
+ │   ├── Bookings.jsx
+ │
+ ├── components/
+ │   ├── Navbar.jsx
+ │   ├── TripCard.jsx
+ │   ├── Seat.jsx
+ │   ├── Loader.jsx
+
