@@ -23,9 +23,11 @@ src/
  ├── pages/
  │   ├── Home.jsx
  │   ├── Search.jsx
+ │   ├── busTicket.jsx
  │   ├── TripDetails.jsx
  │   ├── SeatSelection.jsx
  │   ├── Checkout.jsx
+ │   ├── Payment.jsx
  │   ├── MyBookings.jsx
  │
  ├── admin/
@@ -35,6 +37,7 @@ src/
  │
  ├── components/
  │   ├── Navbar.jsx
+ │   ├── BusSearch.jsx
  │   ├── TripCard.jsx
  │   ├── Seat.jsx
  │   ├── Loader.jsx
