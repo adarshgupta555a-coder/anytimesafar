@@ -5,15 +5,15 @@ const BusSearch = () => {
        <div className="search-container">
             <form className="search-form">
                 <div className="form-group">
-                    <label for="from">From</label>
+                    <label htmlFor="from">From</label>
                     <input type="text" id="from" placeholder="Enter departure city" required/>
                 </div>
                 <div className="form-group">
-                    <label for="to">To</label>
+                    <label htmlFor="to">To</label>
                     <input type="text" id="to" placeholder="Enter destination" required/>
                 </div>
                 <div className="form-group">
-                    <label for="date">Date</label>
+                    <label htmlFor="date">Date</label>
                     <input type="date" id="date" min="2025-12-16" required/>
                 </div>
                 <div className="form-group">
