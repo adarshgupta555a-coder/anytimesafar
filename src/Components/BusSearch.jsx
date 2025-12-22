@@ -21,9 +21,9 @@ const BusSearch = () => {
     const onHandleSubmit = (e) => {
         e.preventDefault();
         console.log(search);
-        const from = search.from.trim(" ").split(" ").join("+")
-        const to = search.to.trim(" ").split(" ").join("+")
-        console.log(from)
+        const from = search.from.trim(" ").split(" ").join("+").toLocaleLowerCase()
+        const to = search.to.trim(" ").split(" ").join("+").toLocaleLowerCase()
+        console.log(from.toLocaleLowerCase())
         console.log(to)
         console.log(search.date)
         navigate(`/busticket?from=${from}&to=${to}&date=${search.date}`)
@@ -36,11 +36,11 @@ const BusSearch = () => {
             <form className="search-form" onSubmit={onHandleSubmit}>
                 <div className="form-group">
                     <label htmlFor="from">From</label>
-                    <input type="text" style={{textTransform:'capitalize'}} id="from" name='from' defaultValue={search.from} onChange={onchangeValue} placeholder="Enter departure city" required/>
+                    <input type="text"  id="from" name='from' defaultValue={search.from} onChange={onchangeValue} placeholder="Enter departure city" required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="to">To</label>
-                    <input type="text" id="to" style={{textTransform:'capitalize'}} name="to" defaultValue={search.to} onChange={onchangeValue}  placeholder="Enter destination" required/>
+                    <input type="text" id="to"  name="to" defaultValue={search.to} onChange={onchangeValue}  placeholder="Enter destination" required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="date">Date</label>

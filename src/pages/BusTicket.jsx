@@ -220,7 +220,7 @@ const BusTicket = () => {
                         <div className="bus-amenities">
                             {item?.features?.map((feature, index) => (<span className="amenity" key={index}>{feature}</span>))}
                         </div>
-                        <a href="#" className="book-btn">Book Now</a>
+                        <Link to={`/checkout?id=${item.id}`} className="book-btn">Book Now</Link>
                     </div>))}
 
 
