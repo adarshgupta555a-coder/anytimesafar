@@ -54,6 +54,7 @@
             height: fit-content;
             position: sticky;
             top: 20px;
+            display: none;
         }
 
         .filter-section {
@@ -212,7 +213,7 @@
             flex: 1;
         }
 
-        .company-name {
+        .company-name1 {
             font-size: 1.3rem;
             font-weight: 600;
             color: #333;
@@ -283,7 +284,7 @@
             background: #ddd;
         }
 
-        .price-section {
+        .price-section1 {
             text-align: center;
         }
 

@@ -189,7 +189,7 @@ const BusTicket = () => {
                     {routes?.map((item) => (<div className="bus-card" key={item?.id}>
                         <div className="bus-header">
                             <div className="bus-company">
-                                <div className="company-name">{item?.operator_name}</div>
+                                <div className="company-name1">{item?.operator_name}</div>
                                 <span className="bus-type">{item?.bus_type}</span>
                             </div>
                             <div className="rating-badge">
@@ -212,7 +212,7 @@ const BusTicket = () => {
                                 <div className="time">{item?.arrival_time}</div>
                                 <div className="location">{item?.to_city}</div>
                             </div>
-                            <div className="price-section">
+                            <div className="price-section1">
                                 <div className="price">₹{item?.price}</div>
                                 <div className="seats-available">{item?.available_seats} seats available</div>
                             </div>

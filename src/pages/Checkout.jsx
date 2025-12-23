@@ -6,6 +6,7 @@ import Ticket from '../Components/Ticket';
 import { AuthContext } from '../context/Auth';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import Thanks from './Thanks';
 
 const Checkout = () => {
   const [step, setStep] = useState(2);
@@ -21,7 +22,12 @@ const Checkout = () => {
     setStep(prev => ++prev);
     console.log(val);
     console.log(book);
+    if (book) {
+      setData({id:book,seats:val})
+    }else{
     setData(val);
+
+    }
   }
 
   const getData = async () => {
@@ -68,13 +74,13 @@ const Checkout = () => {
             {step > 3 ? <div className="step-number">✓</div>:<div className="step-number">3</div>}
             <div className="step-title">Payment</div>
           </div>
-          <div className="step">
-            <div className="step-number">4</div>
+          <div className={`step ${step > 4 ?"completed":"active"}`}>
+            {step > 4 ? <div className="step-number">✓</div>:<div className="step-number">4</div>}
             <div className="step-title">Ticket</div>
           </div>
         </div>
       </div>
-      {Loader?<h1>Loading...</h1>:(<>{step === 2 ? <CheckoutCom profile={profile} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 3 ? <Payment seats={data} profile={profile.id} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 4 ? <Ticket /> : <h1>Loading...</h1>}</>)}
+      {Loader?<h1>Loading...</h1>:(<>{step === 2 ? <CheckoutCom profile={profile} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 3 ? <Payment seats={data} profile={profile.id} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 4 ? <Ticket data={data} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 5?<Thanks/>: <h1>Loading...</h1>}</>)}
 
     </>
   )

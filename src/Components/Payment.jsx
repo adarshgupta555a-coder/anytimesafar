@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { supabase } from '../lib/supabase';
 
 const Payment = ({ OnHandleCheckout, seats, info,profile }) => {
-  const [book, setBook] = useState(null)
 
   const OnPayment = async () => {
 
@@ -21,18 +20,21 @@ const Payment = ({ OnHandleCheckout, seats, info,profile }) => {
       seat: seats,
       payment_verified: true,
       price: priceData,
-    });
+    })
+    .select()
+    .single();
 
   if (!error) {
-    setBook(data)
-    UpdateSeats();
+
+    UpdateSeats(data.id);
   } else {
     console.log("Insert error:", error);
   }
+
 };
 
 
-const UpdateSeats = async () => {
+const UpdateSeats = async (BookId) => {
 
   const { error } = await supabase
     .from("bus_routes")
@@ -44,7 +46,7 @@ const UpdateSeats = async () => {
   if (error) {
     console.log("Seat update error:", error);
   } else {
-    OnHandleCheckout(seats,book);
+    OnHandleCheckout(seats,BookId);
   }
 };
 

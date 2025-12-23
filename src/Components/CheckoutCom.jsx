@@ -107,7 +107,7 @@ const CheckoutCom = ({OnHandleCheckout,info,profile}) => {
           <div className="form-group">
             <label htmlFor="gender">Gender *</label>
             <select id="gender"  required>
-              <option defaultValue={profile.gender}>{profile.gender}</option>
+              <option defaultValue={profile?.gender}>{profile?.gender}</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
