@@ -10,6 +10,7 @@ import Register from './pages/auth/Register'
 import Verify from './pages/auth/verify'
 import Login from './pages/auth/Login'
 import NotFound from './NotFound'
+import Dashboard from './pages/dashboard/Dashboard'
 
 const App = () => {
   return (<>
@@ -27,6 +28,8 @@ const App = () => {
     <Route path="/login" element={<Login/>}/>
 
     <Route path="/verify" element={<Verify/>}/>
+    <Route path="/dashboard" element={<Dashboard/>}/>
+
     <Route path="*" element={<NotFound />} />
 
    </Routes>

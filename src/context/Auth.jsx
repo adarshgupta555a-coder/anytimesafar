@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
+  // const [dashbaord, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const IsAuthCheck = async () => {
@@ -36,9 +37,30 @@ const AuthProvider = ({ children }) => {
 
   };
 
+
+  // const IsDashboard = async () => {
+  //   console.log("dashbaord");
+  //   // setLoading(true);
+  //   if (profile.id) {
+  //     const { data: travel, error } = await supabase
+  //     .from('travel')
+  //     .select("*")
+  //     .eq('userId', profile?.id)
+  //     if(!error){
+  //       // setDashboard(travel)
+  //       console.log(travel)
+  //       return travel;
+  //       // setLoading(false)
+  //     }
+
+
+  //   }
+    
+  // }
+
   // ✅ RUN ONCE
   useEffect(() => {
-            IsAuthCheck();
+    IsAuthCheck();
   }, []);
 
   // ✅ STATE CHANGE OBSERVER (DEBUG PURPOSE)
@@ -48,6 +70,7 @@ const AuthProvider = ({ children }) => {
   }, [profile]);
 
   return (
+    // <AuthContext.Provider value={{ profile, loading, IsDashboard, dashbaord }}>
     <AuthContext.Provider value={{ profile, loading }}>
       {children}
     </AuthContext.Provider>
