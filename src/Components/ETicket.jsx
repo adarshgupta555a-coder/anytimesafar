@@ -1,4 +1,6 @@
 const ETicket = ({ booking, route }) => {
+    console.log(route)
+    console.log(booking)
   return (
     <div id="ticket" style={{ padding: 20 }}>
       {/* <h2>🚌 E-Ticket</h2>
@@ -71,7 +73,7 @@ const ETicket = ({ booking, route }) => {
                     <div className="info-icon">💺</div>
                     <div className="info-content">
                         <div className="info-label">Seat Number(s)</div>
-                        <div className="info-value">{booking?.seats || 20}</div>
+                        <div className="info-value">{booking?.seats || booking?.seat || 20}</div>
                     </div>
                 </div>
             </div>
@@ -80,7 +82,7 @@ const ETicket = ({ booking, route }) => {
 
             <div className="price-section">
                 <div className="price-header">Total Fare</div>
-                <div className="price-amount">{(route.price * booking?.seats + (route.price * booking?.seats * 5) / 100) || 3000}</div>
+                <div className="price-amount">{(route?.price * (booking?.seats||booking?.seat) + (route?.price * (booking?.seats||booking?.seat) * 5) / 100) || 3000}</div>
             </div>
 
             <div className="booking-id">

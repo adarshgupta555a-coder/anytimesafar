@@ -11,6 +11,7 @@ import Verify from './pages/auth/verify'
 import Login from './pages/auth/Login'
 import NotFound from './NotFound'
 import Dashboard from './pages/dashboard/Dashboard'
+import DashTicket from './pages/dashboard/DashTicket'
 
 const App = () => {
   return (<>
@@ -29,6 +30,7 @@ const App = () => {
 
     <Route path="/verify" element={<Verify/>}/>
     <Route path="/dashboard" element={<Dashboard/>}/>
+    <Route path="/ticket/:travelId" element={<DashTicket/>}/>
 
     <Route path="*" element={<NotFound />} />
 
