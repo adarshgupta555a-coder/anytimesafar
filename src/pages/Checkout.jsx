@@ -4,7 +4,7 @@ import CheckoutCom from '../Components/CheckoutCom';
 import Payment from '../Components/Payment';
 import Ticket from '../Components/Ticket';
 import { AuthContext } from '../context/Auth';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Thanks from './Thanks';
 
@@ -14,6 +14,7 @@ const Checkout = () => {
   const [info, setInfo] = useState(null);
   const [Loader, setLoader] = useState(true);
   const { profile, loading } = useContext(AuthContext);
+  const navigate = useNavigate()
   const [SearchParam] = useSearchParams();
   const RouteId = SearchParam.get("id");
 
@@ -53,7 +54,12 @@ const Checkout = () => {
   }
 
   useEffect(() => {
+    if (!profile?.id) {
+      navigate("/login")
+    } else{
     getData()
+
+    }
   }, [])
 
 

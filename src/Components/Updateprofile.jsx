@@ -12,6 +12,10 @@ const Updateprofile = () => {
     gender: profile?.gender,
     dob: profile?.DateOfBirth
   });
+  const [password, setPassword] = useState({
+    Newpassword: "",
+    CnewPassword: ""
+  })
 
 
   const onChangeProfile = (e) => {
@@ -19,45 +23,67 @@ const Updateprofile = () => {
     setProfile((prev) => ({ ...prev, [name]: value }))
   }
 
- const onHandleProfile = async (e) => {
-  e.preventDefault();
+  const onHandleProfile = async (e) => {
+    e.preventDefault();
 
-  const updateData = {};
+    const updateData = {};
 
-  if (profileData.firstName && profileData.firstName !== profile.firstName)
-    updateData.firstName = profileData.firstName;
+    if (profileData.firstName && profileData.firstName !== profile.firstName)
+      updateData.firstName = profileData.firstName;
 
-  if (profileData.lastName && profileData.lastName !== profile.lastName)
-    updateData.lastName = profileData.lastName;
+    if (profileData.lastName && profileData.lastName !== profile.lastName)
+      updateData.lastName = profileData.lastName;
 
-  if (profileData.phone && profileData.phone !== profile.phoneNumber)
-    updateData.phoneNumber = profileData.phone;
+    if (profileData.phone && profileData.phone !== profile.phoneNumber)
+      updateData.phoneNumber = profileData.phone;
 
-  if (profileData.gender && profileData.gender !== profile.gender)
-    updateData.gender = profileData.gender;
+    if (profileData.gender && profileData.gender !== profile.gender)
+      updateData.gender = profileData.gender;
 
-  if (profileData.dob && profileData.dob !== profile.DateOfBirth)
-    updateData.DateOfBirth = profileData.dob;
+    if (profileData.dob && profileData.dob !== profile.DateOfBirth)
+      updateData.DateOfBirth = profileData.dob;
 
-  if (Object.keys(updateData).length === 0) {
-    alert("No changes detected");
-    return;
+    if (Object.keys(updateData).length === 0) {
+      alert("No changes detected");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("profile")
+      .update(updateData)
+      .eq("id", profile.id)
+      .select();
+
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Profile updated:", data);
+    }
+  };
+
+
+  const OnchangePassword = (e) => {
+    const { name, value } = e.target;
+    setPassword((prev) => ({ ...prev, [name]: value }))
   }
 
-  const { data, error } = await supabase
-    .from("profile")
-    .update(updateData)
-    .eq("id", profile.id)
-    .select();
 
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Profile updated:", data);
-  }
-};
+    const onHandlePassword = async (e) => {
+        e.preventDefault();
 
+        if (password.Newpassword !== password.CnewPassword) {
+            return null;
+        }
+        const { error } = await supabase.auth.updateUser({
+            password: password.Newpassword,
+        });
 
+        if (error) {
+            alert(error.message);
+        } else {
+            alert("Password updated successfully");
+        }
+    }
 
   return (
     <>
@@ -234,20 +260,7 @@ const Updateprofile = () => {
           </div>
           <form className="profile-form">
             {/* Current Password */}
-            <div className="form-group">
-              <label htmlFor="currentPassword">
-                Current Password <span className="required">*</span>
-              </label>
-              <div className="input-wrapper">
-                <span className="input-icon">🔒</span>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  placeholder="Enter current password"
-                  required
-                />
-              </div>
-            </div>
+  
             {/* New Password Row */}
             <div className="form-row">
               <div className="form-group">
@@ -258,8 +271,10 @@ const Updateprofile = () => {
                   <span className="input-icon">🔑</span>
                   <input
                     type="password"
-                    id="newPassword"
+                    name="Newpassword"
                     placeholder="Enter new password"
+                    defaultValue={password.Newpassword}
+                  onChange={OnchangePassword}
                     required
                   />
                 </div>
@@ -273,8 +288,10 @@ const Updateprofile = () => {
                   <span className="input-icon">🔑</span>
                   <input
                     type="password"
-                    id="confirmPassword"
+                    name="CnewPassword"
                     placeholder="Confirm new password"
+                    defaultValue={password.CnewPassword}
+                    onChange={OnchangePassword}
                     required
                   />
                 </div>
@@ -293,13 +310,13 @@ const Updateprofile = () => {
             </div>
             {/* Form Actions */}
             <div className="form-actions">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" onClick={onHandlePassword}>
                 <span>🔐</span>
                 <span>Update Password</span>
               </button>
               <button type="reset" className="btn btn-secondary">
-                <span>✕</span>
-                <span>Cancel</span>
+                {/* <span>✕</span> */}
+                <span>Forgot Password</span>
               </button>
             </div>
           </form>

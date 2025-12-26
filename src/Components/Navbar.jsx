@@ -13,7 +13,7 @@ const Navbar = () => {
         <div className="nav-container">
             <div className="logo">
                 <span>🎫</span>
-                <span>TravelEase</span>
+                <span>Any Time Safar</span>
             </div>
             <div className="nav-right">
                 <ul className="nav-links">
@@ -21,12 +21,13 @@ const Navbar = () => {
                     <li><Link to="/bus-ticket">Book Tickets</Link></li>
                     <li><a href="#">Support</a></li>
                 </ul>
+                {profile?.id ?
                 <Link to="/dashboard" style={{textDecoration:"none"}}>
                 <div className="user-menu">
                     <div className="user-avatar">👤</div>
                     <span>{profile?.firstName}</span>
                 </div>
-                </Link>
+                </Link>:<Link to={`/login`} style={{textDecoration:"none",color:"white"}}><b>Login</b></Link>}
             </div>
         </div>
     </nav>
