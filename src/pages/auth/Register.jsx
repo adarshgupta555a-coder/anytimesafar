@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import "../../css/register.css";
 import { supabase } from '../../lib/supabase';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate()
   const [user, setuser] = useState({
     firstName: "",
     lastName: "",
@@ -47,6 +49,7 @@ const Register = () => {
       alert(profileError.message);
     } else {
       alert("Account created successfully check your email 🎉");
+      navigate("/")
     }
 
   }

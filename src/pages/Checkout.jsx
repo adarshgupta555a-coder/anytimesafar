@@ -13,7 +13,7 @@ const Checkout = () => {
   const [data, setData] = useState(null);
   const [info, setInfo] = useState(null);
   const [Loader, setLoader] = useState(true);
-  const { profile, loading } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
   const navigate = useNavigate()
   const [SearchParam] = useSearchParams();
   const RouteId = SearchParam.get("id");
@@ -60,6 +60,9 @@ const Checkout = () => {
     getData()
 
     }
+     return () => {
+    console.log("cleanup");
+  };
   }, [])
 
 

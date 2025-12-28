@@ -44,7 +44,7 @@ const Login = () => {
                 <div className="signin-container">
                     <div className="branding-section">
                         <div className="logo-large">🎫</div>
-                        <div className="brand-name">TravelEase</div>
+                        <div className="brand-name">Any Time Safar</div>
                         <p className="brand-tagline">Welcome back! Sign in to continue your journey with us.</p>
                         <div className="illustration">🚌</div>
                     </div>

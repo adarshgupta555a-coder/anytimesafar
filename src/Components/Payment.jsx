@@ -52,7 +52,7 @@ const UpdateSeats = async (BookId) => {
 
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", textAlign:"center" }}>
       <button className="proceed-btn" onClick={OnPayment}>
         Proceed to Payment
       </button>

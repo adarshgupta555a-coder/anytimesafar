@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 import { supabase } from '../lib/supabase'
 const BusTicket = () => {
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     const [routes, setRoutes] = useState(null);
     const [loading, setLoading] = useState(true);
     const { profile } = useContext(AuthContext);
@@ -36,7 +36,7 @@ const BusTicket = () => {
                 setLoading(false)
             }
 
-        } else{
+        } else {
             let { data: bus_routes, error } = await supabase
                 .from('bus_routes')
                 .select('*')
@@ -65,8 +65,10 @@ const BusTicket = () => {
     useEffect(() => {
         getTravelRoutes()
         console.log(profile)
-        setUser(profile);
-
+        // setUser(profile);
+        return () => {
+            console.log("cleanup");
+        };
     }, [profile]);
 
     if (loading) return <h1>Loading...</h1>;

@@ -13,6 +13,7 @@ import NotFound from './NotFound'
 import Dashboard from './pages/dashboard/Dashboard'
 import DashTicket from './pages/dashboard/DashTicket'
 import ForgotPassword from './pages/auth/ForgotPassword'
+import AdminPanel from './admin/AdminPanel'
 
 const App = () => {
   return (<>
@@ -33,6 +34,7 @@ const App = () => {
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/reset-password" element={<ForgotPassword/>}/>
     <Route path="/ticket/:travelId" element={<DashTicket/>}/>
+    <Route path="/admin" element={<AdminPanel/>}/>
 
     <Route path="*" element={<NotFound />} />
 
