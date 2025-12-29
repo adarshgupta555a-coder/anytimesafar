@@ -328,12 +328,12 @@
             font-weight: 600;
         }
 
-        .status-active {
+        .status-confirmed {
             background: #d1fae5;
             color: #059669;
         }
 
-        .status-inactive {
+        .status-cancelled {
             background: #fee2e2;
             color: #dc2626;
         }

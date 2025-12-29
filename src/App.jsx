@@ -16,6 +16,7 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import AdminPanel from './admin/AdminPanel'
 
 const App = () => {
+  
   return (<>
    {/* always navbar ko BrowserRouter ke undar rakhe taki Link tag sahi se kaam kare */}
      <Navbar/>

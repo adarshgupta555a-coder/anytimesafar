@@ -1,21 +1,88 @@
-import React, { Children, useContext, useEffect } from 'react'
+import React, { Children, useContext, useEffect, useState } from 'react'
 import "../css/admin.css"
 import { AuthContext } from '../context/Auth'
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 const AdminPanel = () => {
-  const {profile,loading} = useContext(AuthContext);
+  const { profile, loading } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [data , setData] = useState(null);
+  const [travel , setTravel] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (profile?.role) {
       if (profile?.role !== "admin") {
-             navigate("/") 
-      } else{
+        navigate("/")
+      } else {
         console.log("your admin")
+        fetchData()
+
       }
     }
     console.log(profile)
-  },[profile,loading])
+  }, [profile, loading]);
+
+
+  const fetchData = async () =>{
+    //parallel fetching 
+   const result = await Promise.allSettled([
+      getNumericData(),
+      getAlltravels()
+
+    ]);
+
+    const [numericRes, travelRes] = result;
+
+    if (numericRes.status === "fulfilled") {
+      console.log(numericRes.value)
+    } else {
+      console.log(numericRes.reason)
+    }
+
+     if (travelRes.status === "fulfilled") {
+      console.log(travelRes.value)
+    } else {
+      console.log(travelRes.reason)
+    }
+  }
+
+
+  const getNumericData = async () => {
+    const { data, error } = await supabase.rpc("dashboard_stats");
+
+    if (error) {
+      alert(error);
+    } else{
+      console.log(data);
+      setData(data)
+    }
+
+  }
+
+  const getAlltravels = async () =>{
+    const {data, error} = await supabase.from("travel")
+    .select(`
+      id,
+      bus_routes(
+      from_city,
+      to_city,
+      from_date
+      ),
+      profile(
+      firstName,
+      lastName
+      ),
+      price,
+      status
+      `)
+
+      if (error) {
+        console.log(error)
+      }else{
+        console.log(data)
+        setTravel(data)
+      }
+  }
 
   return (
     <>
@@ -107,28 +174,28 @@ const AdminPanel = () => {
           <div className="stats-grid">
             <div className="stat-card blue">
               <div className="stat-info">
-                <h3>2,543</h3>
+                <h3>{data?.total_users}</h3>
                 <p>Total Users</p>
               </div>
               <div className="stat-icon">👥</div>
             </div>
             <div className="stat-card green">
               <div className="stat-info">
-                <h3>1,842</h3>
+                <h3>{data?.total_bookings}</h3>
                 <p>Total Bookings</p>
               </div>
               <div className="stat-icon">📋</div>
             </div>
             <div className="stat-card orange">
               <div className="stat-info">
-                <h3>156</h3>
+                <h3>{data?.active_routes}</h3>
                 <p>Active Routes</p>
               </div>
               <div className="stat-icon">🚌</div>
             </div>
             <div className="stat-card purple">
               <div className="stat-info">
-                <h3>₹4.2M</h3>
+                <h3>{data?.total_revenue}</h3>
                 <p>Revenue</p>
               </div>
               <div className="stat-icon">💰</div>
@@ -265,14 +332,15 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>#BK-1001</td>
-                  <td>John Doe</td>
-                  <td>Mumbai → Pune</td>
-                  <td>25 Dec 2024</td>
-                  <td>₹1,700</td>
+               {travel?.map((journey,index)=>(
+                    <tr key={index}>
+                  <td>#{journey?.id}</td>
+                  <td>{journey?.profile?.firstName} {journey?.profile?.lastName}</td>
+                  <td>{journey?.bus_routes?.from_city} → {journey?.bus_routes?.to_city}</td>
+                  <td>{journey?.bus_routes?.from_date}</td>
+                  <td>₹{journey?.price}</td>
                   <td>
-                    <span className="status-badge status-active">Confirmed</span>
+                    <span className={`status-badge status-${journey?.status}`}>{journey?.status}</span>
                   </td>
                   <td>
                     <div className="action-buttons">
@@ -282,74 +350,9 @@ const AdminPanel = () => {
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>#BK-1002</td>
-                  <td>Jane Smith</td>
-                  <td>Delhi → Jaipur</td>
-                  <td>26 Dec 2024</td>
-                  <td>₹850</td>
-                  <td>
-                    <span className="status-badge status-active">Confirmed</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="action-btn btn-view">👁️</button>
-                      <button className="action-btn btn-edit">✏️</button>
-                      <button className="action-btn btn-delete">🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#BK-1003</td>
-                  <td>Mike Johnson</td>
-                  <td>Bangalore → Chennai</td>
-                  <td>27 Dec 2024</td>
-                  <td>₹1,200</td>
-                  <td>
-                    <span className="status-badge status-pending">Pending</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="action-btn btn-view">👁️</button>
-                      <button className="action-btn btn-edit">✏️</button>
-                      <button className="action-btn btn-delete">🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#BK-1004</td>
-                  <td>Sarah Williams</td>
-                  <td>Pune → Goa</td>
-                  <td>28 Dec 2024</td>
-                  <td>₹950</td>
-                  <td>
-                    <span className="status-badge status-inactive">Cancelled</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="action-btn btn-view">👁️</button>
-                      <button className="action-btn btn-edit">✏️</button>
-                      <button className="action-btn btn-delete">🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#BK-1005</td>
-                  <td>Robert Brown</td>
-                  <td>Hyderabad → Vijayawada</td>
-                  <td>29 Dec 2024</td>
-                  <td>₹600</td>
-                  <td>
-                    <span className="status-badge status-active">Confirmed</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="action-btn btn-view">👁️</button>
-                      <button className="action-btn btn-edit">✏️</button>
-                      <button className="action-btn btn-delete">🗑️</button>
-                    </div>
-                  </td>
-                </tr>
+               ))} 
+          
+              
               </tbody>
             </table>
           </div>
