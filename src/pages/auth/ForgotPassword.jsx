@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import "../../css/Updateprofile.css";
 import { supabase } from '../../lib/supabase';
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
     const [password, setPassword] = useState({
         Newpassword: "",
         CnewPassword: ""
-    })
+    });
+    const toastError = (msg) => toast.error(msg);
+    const toastSuccess = (msg) => toast.success(msg);
+    const toastInfo = (msg) => toast.info(msg);
 
     const OnchangePassword = (e) => {
         const { name, value } = e.target;
@@ -24,9 +28,9 @@ const ForgotPassword = () => {
         });
 
         if (error) {
-            alert(error.message);
+            toastError(error.message);
         } else {
-            alert("Password updated successfully");
+            toastSuccess("Password updated successfully");
         }
     }
     return (

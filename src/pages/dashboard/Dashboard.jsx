@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import Mybooking from '../../Components/Mybooking';
 import Updateprofile from '../../Components/Updateprofile';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
     const { profile, IsDashboard, dashboard } = useContext(AuthContext);
     const [dash, setDash] = useState(null);
     const [Com, setCom] = useState(0)
     const navigate = useNavigate()
+    const toastError = (msg) => toast.error(msg);
+    const toastSuccess = (msg) => toast.success(msg);
+    const toastInfo = (msg) => toast.info(msg);
 
     useEffect(() => {
         // console.log(dash)
@@ -71,12 +75,12 @@ const Dashboard = () => {
         const trip = dash?.find(t => t.id === id);
 
         if (!trip) {
-            alert("Trip not found");
+            toastInfo("Trip not found");
             return;
         }
 
         if (trip.status !== "confirmed") {
-            alert("Bhai pehle confirm hone de.");
+            toastError("Bhai pehle confirm hone de.");
             return;
         }
 
@@ -90,7 +94,7 @@ const Dashboard = () => {
 
         if (seatError) {
             console.log("Seat update error:", seatError);
-            alert("Seat update failed");
+            toastError("Seat update failed");
             return;
         }
 
@@ -102,24 +106,24 @@ const Dashboard = () => {
 
         if (travelError) {
             console.log("Travel update error:", travelError);
-            alert("Cancel failed");
+            toastError("Cancel failed");
             return;
         }
 
         IsDashboard();
-        alert("Booking Cancelled successfully.");
+        toastSuccess("Booking Cancelled successfully.");
     };
 
-    const OnLogout = async () =>{
+    const OnLogout = async () => {
         let { error } = await supabase.auth.signOut();
         if (!error) {
-           alert("Your Session Logout");
-           navigate("/");
+            toastInfo("Your Session Logout");
+            navigate("/");
         }
     }
 
 
-    const onhandleCom = (num) =>{
+    const onhandleCom = (num) => {
         setCom(num)
     }
 
@@ -137,7 +141,7 @@ const Dashboard = () => {
 
                     <ul className="menu-list">
                         <li className="menu-item">
-                            <a href="#mybooking" className={`menu-link ${Com === 1?'active':''}`} onClick={()=>onhandleCom(1)}>
+                            <a href="#mybooking" className={`menu-link ${Com === 1 ? 'active' : ''}`} onClick={() => onhandleCom(1)}>
                                 <span className="menu-icon">📋</span>
                                 <span>My Bookings</span>
                             </a>
@@ -148,10 +152,10 @@ const Dashboard = () => {
                                 <span>My Refunds</span>
                             </a>
                         </li>
-                        <li className={`menu-item`}  onClick={()=>onhandleCom(2)}>
-                            <a href="#Updateprofile" className={`menu-link ${Com === 2?'active':''}`}>
+                        <li className={`menu-item`} onClick={() => onhandleCom(2)}>
+                            <a href="#Updateprofile" className={`menu-link ${Com === 2 ? 'active' : ''}`}>
                                 <span className="menu-icon">⚙️</span>
-                                <span className={`${Com === 2?'dash-active':''}`}>Update Profile</span>
+                                <span className={`${Com === 2 ? 'dash-active' : ''}`}>Update Profile</span>
                             </a>
                         </li>
                     </ul>
@@ -159,7 +163,7 @@ const Dashboard = () => {
                     <button className="logout-btn" onClick={OnLogout}>🚪 Logout</button>
                 </aside>
 
-              {Com === 1?<Mybooking dash={dash} onCancelTrip={onCancelTrip}/>:Com===2?<Updateprofile/>:<h1>Loading...</h1>}
+                {Com === 1 ? <Mybooking dash={dash} onCancelTrip={onCancelTrip} /> : Com === 2 ? <Updateprofile /> : <h1>Loading...</h1>}
             </div>
 
         </>

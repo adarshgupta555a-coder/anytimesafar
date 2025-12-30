@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { supabase } from '../../lib/supabase';
 import "../../css/Login.css"
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -9,6 +10,8 @@ const Login = () => {
         email: "",
         password: ""
     });
+    const toastSuccess = (msg) => toast.success(msg);
+    const toastError = (msg) => toast.error(msg);
 
     const onFormSubmit = async (e) => {
         e.preventDefault()
@@ -22,9 +25,9 @@ const Login = () => {
         console.log(data)
 
         if (error) {
-            alert(error.message);
+            toastError(error.message);
         } else {
-            alert("Login successful 🚍");
+            toastSuccess("Login successful 🚍");
             navigate("/");
         }
     };

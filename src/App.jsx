@@ -14,10 +14,21 @@ import Dashboard from './pages/dashboard/Dashboard'
 import DashTicket from './pages/dashboard/DashTicket'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import AdminPanel from './admin/AdminPanel'
-
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/ReactToastify.css"
 const App = () => {
   
   return (<>
+
+    <ToastContainer
+    position='top-right'
+    autoClose={3000}
+    hideProgressBar={false}
+    closeOnClick
+    pauseOnHover
+    theme='colored'
+    />
+
    {/* always navbar ko BrowserRouter ke undar rakhe taki Link tag sahi se kaam kare */}
      <Navbar/>
 

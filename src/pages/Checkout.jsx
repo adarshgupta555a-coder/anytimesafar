@@ -7,6 +7,7 @@ import { AuthContext } from '../context/Auth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Thanks from './Thanks';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const [step, setStep] = useState(2);
@@ -17,16 +18,18 @@ const Checkout = () => {
   const navigate = useNavigate()
   const [SearchParam] = useSearchParams();
   const RouteId = SearchParam.get("id");
+  const toastError = (msg) => toast.error(msg);
+  const toastSuccess = (msg) => toast.success(msg);
+  const toastInfo = (msg) => toast.info(msg);
 
-
-  const OnHandleCheckout = (val,book) => {
+  const OnHandleCheckout = (val, book) => {
     setStep(prev => ++prev);
     console.log(val);
     console.log(book);
     if (book) {
-      setData({id:book,seats:val})
-    }else{
-    setData(val);
+      setData({ id: book, seats: val })
+    } else {
+      setData(val);
 
     }
   }
@@ -49,20 +52,20 @@ const Checkout = () => {
     }
 
     if (error) {
-      alert("some thing went wrong.")
+      toastError("some thing went wrong.")
     }
   }
 
   useEffect(() => {
     if (!profile?.id) {
       navigate("/login")
-    } else{
-    getData()
+    } else {
+      getData()
 
     }
-     return () => {
-    console.log("cleanup");
-  };
+    return () => {
+      console.log("cleanup");
+    };
   }, [])
 
 
@@ -72,24 +75,24 @@ const Checkout = () => {
       <div className="progress-container">
         <div className="progress-steps">
           <div className="step completed">
-           {step > 1 ? <div className="step-number">✓</div>:<div className="step-number">1</div>}
+            {step > 1 ? <div className="step-number">✓</div> : <div className="step-number">1</div>}
             <div className="step-title">Select Bus</div>
           </div>
-          <div className={`step ${step > 2 ?"completed":"active"}`}>
-            {step > 2 ? <div className="step-number">✓</div>:<div className="step-number">2</div>}
+          <div className={`step ${step > 2 ? "completed" : "active"}`}>
+            {step > 2 ? <div className="step-number">✓</div> : <div className="step-number">2</div>}
             <div className="step-title">Select Seats</div>
           </div>
-          <div className={`step ${step > 3 ?"completed":"active"}`}>
-            {step > 3 ? <div className="step-number">✓</div>:<div className="step-number">3</div>}
+          <div className={`step ${step > 3 ? "completed" : "active"}`}>
+            {step > 3 ? <div className="step-number">✓</div> : <div className="step-number">3</div>}
             <div className="step-title">Payment</div>
           </div>
-          <div className={`step ${step > 4 ?"completed":"active"}`}>
-            {step > 4 ? <div className="step-number">✓</div>:<div className="step-number">4</div>}
+          <div className={`step ${step > 4 ? "completed" : "active"}`}>
+            {step > 4 ? <div className="step-number">✓</div> : <div className="step-number">4</div>}
             <div className="step-title">Ticket</div>
           </div>
         </div>
       </div>
-      {Loader?<h1>Loading...</h1>:(<>{step === 2 ? <CheckoutCom profile={profile} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 3 ? <Payment seats={data} profile={profile.id} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 4 ? <Ticket data={data} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 5?<Thanks/>: <h1>Loading...</h1>}</>)}
+      {Loader ? <h1>Loading...</h1> : (<>{step === 2 ? <CheckoutCom profile={profile} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 3 ? <Payment seats={data} profile={profile.id} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 4 ? <Ticket data={data} info={info} OnHandleCheckout={OnHandleCheckout} /> : step === 5 ? <Thanks /> : <h1>Loading...</h1>}</>)}
 
     </>
   )

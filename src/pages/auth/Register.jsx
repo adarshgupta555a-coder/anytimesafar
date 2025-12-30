@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "../../css/register.css";
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate()
@@ -14,7 +15,9 @@ const Register = () => {
     dob: "",
     password: "",
     cpassword: ""
-  })
+  });
+  const toastSuccess = (msg) => toast.success(msg);
+  const toastError = (msg) => toast.error(msg);
 
 
   const onFormSubmit = async (e) => {
@@ -46,9 +49,9 @@ const Register = () => {
       });
 
     if (profileError) {
-      alert(profileError.message);
+      toastError(profileError.message);
     } else {
-      alert("Account created successfully check your email 🎉");
+      toastSuccess("Account created successfully check your email 🎉");
       navigate("/")
     }
 

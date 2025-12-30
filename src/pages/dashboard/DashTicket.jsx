@@ -5,26 +5,28 @@ import ETicket from '../../Components/ETicket';
 import "../../css/ticket.css";
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/Auth';
+import { toast } from 'react-toastify';
 
 const DashTicket = () => {
-  const {travelId} = useParams()
-  const {dashboard,IsDashboard} = useContext(AuthContext);
+  const { travelId } = useParams()
+  const { dashboard, IsDashboard } = useContext(AuthContext);
   const [ticket, setTicket] = useState(null);
+  const toastSuccess = (msg) => toast.success(msg);
 
-    useEffect(()=>{
-      if (!dashboard?.length) {
-        IsDashboard()
-      }else{
-        console.log(travelId)
-        const ticketdata = dashboard?.filter(travel => travel.id == travelId)
-        console.log(ticketdata)
-        setTicket(ticketdata[0])
-      }
-        
-    },[dashboard])
+  useEffect(() => {
+    if (!dashboard?.length) {
+      IsDashboard()
+    } else {
+      console.log(travelId)
+      const ticketdata = dashboard?.filter(travel => travel.id == travelId)
+      console.log(ticketdata)
+      setTicket(ticketdata[0])
+    }
+
+  }, [dashboard])
 
 
-    const OnDownload = async () => {
+  const OnDownload = async () => {
     const element = document.getElementById("ticket");
 
     const canvas = await html2canvas(element);
@@ -33,9 +35,10 @@ const DashTicket = () => {
     const pdf = new jsPDF();
     pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
     pdf.save("e-ticket.pdf");
+    toastSuccess("Downloaded Successfully!")
   }
   return (
-      <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px" }}>
       <center>
         <ETicket booking={ticket} route={ticket?.bus_routes} />
       </center>
