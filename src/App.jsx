@@ -16,6 +16,8 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import AdminPanel from './admin/AdminPanel'
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/ReactToastify.css"
+import EditTrip from './admin/EditTrip'
+import AddRoutes from './admin/AddRoutes'
 const App = () => {
   
   return (<>
@@ -47,6 +49,8 @@ const App = () => {
     <Route path="/reset-password" element={<ForgotPassword/>}/>
     <Route path="/ticket/:travelId" element={<DashTicket/>}/>
     <Route path="/admin" element={<AdminPanel/>}/>
+    <Route path="/edittrip" element={<EditTrip/>}/>
+    <Route path="/addroutes" element={<AddRoutes/>}/>
 
     <Route path="*" element={<NotFound />} />
 
