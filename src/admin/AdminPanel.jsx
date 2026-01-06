@@ -1,13 +1,13 @@
 import React, { Children, useContext, useEffect, useState } from 'react'
 import "../css/admin.css"
 import { AuthContext } from '../context/Auth'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 const AdminPanel = () => {
   const { profile, loading } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [data , setData] = useState(null);
-  const [travel , setTravel] = useState(null);
+  const [data, setData] = useState(null);
+  const [travel, setTravel] = useState(null);
 
   useEffect(() => {
     if (profile?.role) {
@@ -23,9 +23,9 @@ const AdminPanel = () => {
   }, [profile, loading]);
 
 
-  const fetchData = async () =>{
+  const fetchData = async () => {
     //parallel fetching 
-   const result = await Promise.allSettled([
+    const result = await Promise.allSettled([
       getNumericData(),
       getAlltravels()
 
@@ -39,7 +39,7 @@ const AdminPanel = () => {
       console.log(numericRes.reason)
     }
 
-     if (travelRes.status === "fulfilled") {
+    if (travelRes.status === "fulfilled") {
       console.log(travelRes.value)
     } else {
       console.log(travelRes.reason)
@@ -52,16 +52,16 @@ const AdminPanel = () => {
 
     if (error) {
       alert(error);
-    } else{
+    } else {
       console.log(data);
       setData(data)
     }
 
   }
 
-  const getAlltravels = async () =>{
-    const {data, error} = await supabase.from("travel")
-    .select(`
+  const getAlltravels = async () => {
+    const { data, error } = await supabase.from("travel")
+      .select(`
       id,
       bus_routes(
       from_city,
@@ -76,12 +76,12 @@ const AdminPanel = () => {
       status
       `)
 
-      if (error) {
-        console.log(error)
-      }else{
-        console.log(data)
-        setTravel(data)
-      }
+    if (error) {
+      console.log(error)
+    } else {
+      console.log(data)
+      setTravel(data)
+    }
   }
 
   return (
@@ -202,10 +202,13 @@ const AdminPanel = () => {
             </div>
           </div>
           <div className="quick-actions">
-            <div className="quick-action-card">
-              <div className="quick-action-icon">➕</div>
-              <div className="quick-action-title">Add New Route</div>
-            </div>
+            <Link to="/addroutes" style={{textDecoration:"none",color:"black"}}>
+              <div className="quick-action-card">
+                <div className="quick-action-icon">➕</div>
+                <div className="quick-action-title">Add New Route</div>
+              </div>
+            </Link>
+
             <div className="quick-action-card">
               <div className="quick-action-icon">👤</div>
               <div className="quick-action-title">Add New User</div>
@@ -332,27 +335,27 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-               {travel?.map((journey,index)=>(
-                    <tr key={index}>
-                  <td>#{journey?.id}</td>
-                  <td>{journey?.profile?.firstName} {journey?.profile?.lastName}</td>
-                  <td>{journey?.bus_routes?.from_city} → {journey?.bus_routes?.to_city}</td>
-                  <td>{journey?.bus_routes?.from_date}</td>
-                  <td>₹{journey?.price}</td>
-                  <td>
-                    <span className={`status-badge status-${journey?.status}`}>{journey?.status}</span>
-                  </td>
-                  <td>
-                    <div className="action-buttons">
-                      <button className="action-btn btn-view">👁️</button>
-                      <button className="action-btn btn-edit">✏️</button>
-                      <button className="action-btn btn-delete">🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-               ))} 
-          
-              
+                {travel?.map((journey, index) => (
+                  <tr key={index}>
+                    <td>#{journey?.id}</td>
+                    <td>{journey?.profile?.firstName} {journey?.profile?.lastName}</td>
+                    <td>{journey?.bus_routes?.from_city} → {journey?.bus_routes?.to_city}</td>
+                    <td>{journey?.bus_routes?.from_date}</td>
+                    <td>₹{journey?.price}</td>
+                    <td>
+                      <span className={`status-badge status-${journey?.status}`}>{journey?.status}</span>
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        <button className="action-btn btn-view">👁️</button>
+                        <button className="action-btn btn-edit">✏️</button>
+                        <button className="action-btn btn-delete">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+
+
               </tbody>
             </table>
           </div>
