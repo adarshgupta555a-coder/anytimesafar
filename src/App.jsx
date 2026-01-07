@@ -49,7 +49,7 @@ const App = () => {
     <Route path="/reset-password" element={<ForgotPassword/>}/>
     <Route path="/ticket/:travelId" element={<DashTicket/>}/>
     <Route path="/admin" element={<AdminPanel/>}/>
-    <Route path="/edittrip" element={<EditTrip/>}/>
+    <Route path="/edittrip/:id" element={<EditTrip/>}/>
     <Route path="/addroutes" element={<AddRoutes/>}/>
 
     <Route path="*" element={<NotFound />} />

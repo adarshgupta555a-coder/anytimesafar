@@ -3,11 +3,14 @@ import "../css/admin.css"
 import { AuthContext } from '../context/Auth'
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { toast } from 'react-toastify';
 const AdminPanel = () => {
   const { profile, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [travel, setTravel] = useState(null);
+  const toastError = (msg) => toast.error(msg);
+  const toastSuccess = (msg) => toast.success(msg);
 
   useEffect(() => {
     if (profile?.role) {
@@ -84,6 +87,20 @@ const AdminPanel = () => {
     }
   }
 
+
+  const onDeleteTrip = async (id) => {
+
+    const { error } = await supabase
+      .from('travel')
+      .delete()
+      .eq('id', id)
+
+    if (!error) {
+      toastSuccess("Travel deleted successfully")
+      fetchData()
+    }
+
+  }
   return (
     <>
       <div className="admin-container">
@@ -202,7 +219,7 @@ const AdminPanel = () => {
             </div>
           </div>
           <div className="quick-actions">
-            <Link to="/addroutes" style={{textDecoration:"none",color:"black"}}>
+            <Link to="/addroutes" style={{ textDecoration: "none", color: "black" }}>
               <div className="quick-action-card">
                 <div className="quick-action-icon">➕</div>
                 <div className="quick-action-title">Add New Route</div>
@@ -348,8 +365,10 @@ const AdminPanel = () => {
                     <td>
                       <div className="action-buttons">
                         <button className="action-btn btn-view">👁️</button>
-                        <button className="action-btn btn-edit">✏️</button>
-                        <button className="action-btn btn-delete">🗑️</button>
+                        <Link to={`/edittrip/${journey?.id}`}>
+                          <button className="action-btn btn-edit">✏️</button>
+                        </Link>
+                        <button className="action-btn btn-delete" onClick={() => onDeleteTrip(journey?.id)}>🗑️</button>
                       </div>
                     </td>
                   </tr>

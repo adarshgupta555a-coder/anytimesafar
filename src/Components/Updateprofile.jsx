@@ -43,6 +43,7 @@ const Updateprofile = () => {
     if (profileData.dob && profileData.dob !== profile.DateOfBirth)
       updateData.DateOfBirth = profileData.dob;
 
+    // agar sab chize same hai toh yehi se return kardo submit mat karo.
     if (Object.keys(updateData).length === 0) {
       alert("No changes detected");
       return;
