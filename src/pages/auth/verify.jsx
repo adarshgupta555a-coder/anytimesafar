@@ -8,9 +8,35 @@ const Verify = () => {
   const toastError = (msg) => toast.error(msg);
   const toastSuccess = (msg) => toast.success(msg);
   // const toastInfo = (msg) => toast.info(msg);
+
+  const validateForm = (gmail) => {
+    const regex = {
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    };
+
+    let errors = {};
+
+    if (!regex.email.test(gmail)) {
+      errors.email = "Invalid email address";
+      toastError(errors.email);
+    }
+
+    return errors;
+  };
+
+
   const onVerify = async (e) => {
     e.preventDefault();
-    console.log(email)
+    // console.log(email)
+
+    const errors = validateForm(email);
+
+    if (Object.keys(errors).length > 0) {
+      console.error(error);
+      return;
+    }
+
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: "http://localhost:5173/reset-password",
     });

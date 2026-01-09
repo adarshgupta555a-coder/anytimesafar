@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 
 const BusSearch = () => {
     const navigate = useNavigate()
+    const today = new Date().toISOString().split("T")[0];
     const [search, setSearch] = useState({
         from:"",
         to:"",
-        date:""
+        date:today
     })
 
 
@@ -44,7 +45,7 @@ const BusSearch = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="date">Date</label>
-                    <input type="date" id="date"  data-provide="datepicker" data-date-format="yyyy-mm-dd" name="date" defaultValue={search.date} onChange={onchangeValue}  min="2024-12-16" required/>
+                    <input type="date" id="date"  data-provide="datepicker" data-date-format="yyyy-mm-dd" name="date" defaultValue={search.date} onChange={onchangeValue}  min={today} required/>
                 </div>
                 <div className="form-group">
                     <button type="submit" className="search-btn">Search</button>

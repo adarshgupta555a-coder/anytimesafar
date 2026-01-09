@@ -13,9 +13,38 @@ const Login = () => {
     const toastSuccess = (msg) => toast.success(msg);
     const toastError = (msg) => toast.error(msg);
 
+    const validateForm = (data) => {
+        const regex = {
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+            password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/
+        };
+
+        let errors = {};
+
+        if (!regex.email.test(data.email)) {
+            errors.email = "Invalid email address";
+            toastError(errors.email);
+        }
+
+        if (!regex.password.test(data.password)) {
+            errors.password = "Password must be 8+ chars, include upper, lower, number & special char";
+            toastError(errors.password);
+        }
+
+        return errors;
+    };
+
+
+
     const onFormSubmit = async (e) => {
         e.preventDefault()
-        console.log(user)
+
+        const errors = validateForm(user);
+
+        if (Object.keys(errors).length > 0) {
+            console.error(error);
+            return;
+        }
 
         const { data, error } = await supabase.auth.signInWithPassword({
             email: user.email,
@@ -102,7 +131,7 @@ const Login = () => {
                         </div>
 
                         <div className="signup-link">
-                            Don't have an account? <a href="#">Sign Up</a>
+                            Don't have an account? <Link to="/register">Sign Up</Link>
                         </div>
 
                         <div className="help-text">

@@ -18,6 +18,8 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/ReactToastify.css"
 import EditTrip from './admin/EditTrip'
 import AddRoutes from './admin/AddRoutes'
+import AddUser from './admin/AddUser'
+
 const App = () => {
   
   return (<>
@@ -51,6 +53,7 @@ const App = () => {
     <Route path="/admin" element={<AdminPanel/>}/>
     <Route path="/edittrip/:id" element={<EditTrip/>}/>
     <Route path="/addroutes" element={<AddRoutes/>}/>
+    <Route path="/adduser" element={<AddUser/>}/>
 
     <Route path="*" element={<NotFound />} />
 

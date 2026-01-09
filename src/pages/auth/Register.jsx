@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "../../css/register.css";
 import { supabase } from '../../lib/supabase';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Register = () => {
@@ -20,9 +20,75 @@ const Register = () => {
   const toastError = (msg) => toast.error(msg);
 
 
+  const validateForm = (data) => {
+    const regex = {
+      name: /^[A-Za-z]{2,}$/,
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+      mobile: /^[6-9]\d{9}$/,
+      password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/
+    };
+
+    let errors = {};
+
+    if (!regex.name.test(data.firstName)) {
+      errors.firstName = "First name must contain only letters (min 2)";
+      toastError(errors.firstName);
+    }
+
+    if (!regex.name.test(data.lastName)) {
+      errors.lastName = "Last name must contain only letters (min 2)";
+      toastError(errors.lastName);
+    }
+
+    if (!regex.email.test(data.email)) {
+      errors.email = "Invalid email address";
+      toastError(errors.email);
+    }
+
+    if (!regex.mobile.test(data.mobile)) {
+      errors.mobile = "Invalid mobile number";
+      toastError(errors.mobile);
+    }
+
+    if (!data.gender) {
+      errors.gender = "Gender is required";
+      toastError(errors.gender);
+    }
+
+    // DOB Validation (Age >= 18)
+    if (!data.dob) {
+      errors.dob = "Date of birth required";
+      toastError(errors.dob);
+    } else {
+      const age = new Date().getFullYear() - new Date(data.dob).getFullYear();
+      if (age < 18) {
+        errors.dob = "You must be at least 18 years old";
+        toastError(errors.dob);
+      }
+    }
+
+    if (!regex.password.test(data.password)) {
+      errors.password = "Password must be 8+ chars, include upper, lower, number & special char";
+      toastError(errors.password);
+    }
+
+    if (data.password !== data.cpassword) {
+      errors.cpassword = "Passwords do not match";
+      toastError(errors.cpassword);
+    }
+
+    return errors;
+  };
+
   const onFormSubmit = async (e) => {
     e.preventDefault()
-    console.log(user);
+    // console.log(user);
+    const errors = validateForm(user);
+
+    if (Object.keys(errors).length > 0) {
+      console.log(errors);
+      return;
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email: user.email,
@@ -262,7 +328,7 @@ const Register = () => {
             </div>
             {/* Login Link */}
             <div className="login-link">
-              Already have an account? <a href="#">Sign In</a>
+              Already have an account? <Link to="/login">Sign In</Link>
             </div>
           </div>
         </div>
